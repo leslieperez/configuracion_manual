@@ -1,24 +1,21 @@
 # Script para ejecutar pruebas sistematicas 
 # de parametros con ACOTSP
 
-# cargar librerias 
 suppressMessages(require("stringr"))
-suppressMessages(require("parallel"))
 source("utils/ejecucion.R")
 source("utils/boxplot.R")
 
 # Ruta al ejecutable del algoritmo
 exe = "ACOTSP-1.03/acotsp"
-cores = 6
 
 # Instancia para evaluar el algoritmo
-instancia = "-i instances/rat783.tsp"
+instancia = "-i instances/att532.tsp"
 
 # Defina el tiempo definido para cada ejecucion
-exe_args = "--tries 1 --time 10 --quiet"
+exe_args = "--tries 1 --time 0 --tours 2000 --quiet"
 
 # Defina parametros fijos
-param_fijos = "--ants 10"
+param_fijos = "--ants 10 --localsearch 0"
 
 # Defina el parametro que se va a evaluar
 param_test = "--"
@@ -38,33 +35,18 @@ semillas = round(runif(runs) * 100000)
 resultados = matrix(NA, ncol=length(values_test), nrow=runs)
 colnames(resultados) = values_test
 
-cat ("Instancia: ", instancia)
-cat ("\nParametro: ", param_test)
-
-command_lines <- c()
-# Crear las lineas de comando
-for (i in 1:length(test_lines)) {
-  for (j in 1:runs) {
-    # Crear linea de comando
-    command_lines = c(command_lines, paste(exe_args, param_fijos, instancia, test_lines[i], "--seed", semillas[j]))
-  }
-}
+cat ("Ejecutando pruebas\n  Instancia: ", instancia)
+cat ("\n  Parametro: ", param_test)
 
 # Ejecutar los experimentos
-cat("\nEjecutando ", length(command_lines), " experimentos...\n")
-all_output = mclapply(command_lines, runExperiment, mc.cores = cores, command=exe)
-print("\n")
-
-# Obtener resultados
-k = 1
-for (i in 1:(length(command_lines)/runs)) {
+for (i in 1:length(test_lines)) {
   cat ("\n  Valor: ", values_test[i])
   for (j in 1:runs) {
-    resultados[j,i] = all_output[[k]]
+    # Crear linea de comando y ejecutar
+    command_line = paste(exe_args, param_fijos, instancia, test_lines[i], "--seed", semillas[j])
+    resultados[j,i] = runExperiment(command=exe, command_line=command_line)
     cat ("\n    semilla",semillas[j],": ", resultados[j,i])
-    k = k + 1
   }
-  
 }
 
 # Escribir los resultados a un archivo
