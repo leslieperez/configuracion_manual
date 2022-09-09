@@ -1,6 +1,5 @@
 { pkgs }: {
 	deps = [
-		pkgs.rWrapper
                 pkgs.R
                 pkgs.clang_12
 		pkgs.ccls

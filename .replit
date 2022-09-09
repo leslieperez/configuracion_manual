@@ -1,2 +1,2 @@
-language = "C"
-run = "scripts/R-manual-algorithm-test.R"
+language = "R"
+run = "Rscript scripts/R-manual-algorithm-test.R"
