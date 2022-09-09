@@ -13,7 +13,8 @@ runExperiment <- function(command, command_line) {
     resultado = as.numeric(output[sel+1])
   } else {
     sel = which(sapply(output, grep, pattern="try 0, Best", ignore.case = FALSE, value=FALSE) == 1)
-    resultado = as.numeric(str_split(str_trim(str_split(output[sel],"," )[[1]][2]), "\\s")[[1]][2])
+    resultado = as.numeric(strsplit(trimws(strsplit(output[sel],"," )[[1]][2]), "\\s")[[1]][2])
+    #resultado = as.numeric(str_split(str_trim(str_split(output[sel],"," )[[1]][2]), "\\s")[[1]][2])
   }
   return(resultado)
 }

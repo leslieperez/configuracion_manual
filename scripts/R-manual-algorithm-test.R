@@ -1,7 +1,6 @@
 # Script para ejecutar pruebas sistematicas 
 # de parametros con ACOTSP
 
-suppressMessages(require("stringr"))
 source("utils/ejecucion.R")
 source("utils/boxplot.R")
 
@@ -18,8 +17,8 @@ exe_args = "--tries 1 --time 0 --tours 2000 --quiet"
 param_fijos = "--ants 10 --localsearch 0"
 
 # Defina el parametro que se va a evaluar
-param_test = "--"
-values_test = c("as", "ras", "eas", "mmas", "acs")
+#param_test = "--"
+#values_test = c("as", "ras", "eas", "mmas", "acs")
 
 #param_test = "--alpha"
 #values_test = c("0.1", "0.25", "0.5", "1.0", "1.5", "2.0")
